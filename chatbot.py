@@ -17,15 +17,14 @@ def load_vector_store():
     # load the interpreted information from the local database
     embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2",
-        model_kwargs={'device': 'cpu'})
+        model_kwargs={'device': 'cuda'})
     db = FAISS.load_local("faiss", embeddings)
     return db
 
 
 def create_prompt_template():
     # prepare the template we will use when prompting the AI
-    template = """Use the provided context to answer the user's question.
-    If you don't know the answer, respond with "I do not know".
+    template = """The following is a conversation between a human an AI. The AI acts a receptionist of KT Informatik. AI will chat with the human about KT Inormatik.Use the provided context to answer the user's question.
 
     Context: {context}
     Question: {question}
@@ -66,7 +65,7 @@ def generate_response(query, qa_chain):
 if __name__ == "__main__":
 
     # test the code with a sample question
-    query = "What algorithms are used to track players?"
+    query = "How are you"
     qa_chain = create_qa_chain()
     response = generate_response(query=query, qa_chain=qa_chain)
     print(response)
