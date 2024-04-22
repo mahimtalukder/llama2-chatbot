@@ -17,7 +17,7 @@ def load_vector_store():
     # load the interpreted information from the local database
     embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2",
-        model_kwargs={'device': 'cuda'})
+        model_kwargs={'device': 'cpu'})
     db = FAISS.load_local("faiss", embeddings)
     return db
 
